@@ -1,16 +1,16 @@
 <?php session_start();
 if (!$_SESSION["email"]){
-	header("location:form-login.php"); 
-}else { 
+	header("location:form-login.php");
+}else {
 
-include("connect.php");	   
+include("connect.php");
 ?>
 
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>ตะกร้า</title>
 </head>
 	<style>
 		body{
@@ -29,14 +29,14 @@ include("connect.php");
 			<th>จำนวน</th>
 			<th colspan="2">เลือกรายการ</th>
 		</tr>
-		<?php 
+		<?php
 		if(isset($_COOKIE["cart"])) {
 			foreach($_COOKIE["cart"] as $index => $valus) {
 				$sql = "SELECT * FROM stock WHERE id='".$index."'";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
     				while($row = $result->fetch_assoc()) {
-		?>	
+		?>
 		<tr>
     		<td><?php echo $row["name"]; ?></td>
 			<td><?php echo $valus; ?></td>
@@ -53,17 +53,15 @@ include("connect.php");
 			</td>
   		</tr>
 		<?php 		}
-				} 
+				}
 			}
 		}
 		?>
 	</table>
-	
-	
+
+
 	<a href="form-cart.php">ย้อนกลับ</a> <br><br>
 	<form action="php-submitCart.php" method="post"><input type="submit" value="ยืนยันการสั่งซื้อ"></form>
 </body>
 </html>
 <?php  $conn->close(); } ?>
-
-

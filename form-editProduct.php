@@ -1,11 +1,11 @@
 <?php session_start();
 if (!$_SESSION["email"]){
-	header("location:form-login.php"); 
-}else { 
+	header("location:form-login.php");
+}else {
 
 include("connect.php");
 $id = $_POST["id"];
-	
+
 $sql = "SELECT * FROM stock WHERE id='".$id."'";
 $result = $conn->query($sql);
 ?>
@@ -14,7 +14,7 @@ $result = $conn->query($sql);
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>แก้ไขสิ้นค้า</title>
 </head>
 	<style>
 		body, input{
@@ -24,7 +24,7 @@ $result = $conn->query($sql);
 	</style>
 <body>
 	<h1>แก้ไขสินค้า</h1>
-	<?php 
+	<?php
 	if ($result->num_rows > 0) {
     	while($row = $result->fetch_assoc()) {
 	?>

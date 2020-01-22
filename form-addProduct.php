@@ -1,13 +1,13 @@
 <?php session_start();
 if (!$_SESSION["email"]){
-	header("location:form-login.php"); 
+	header("location:form-login.php");
 }else { ?>
 
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>เพิ่มสินค้า</title>
 </head>
 	<style>
 		body, input{

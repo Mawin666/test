@@ -1,7 +1,7 @@
 <?php session_start();
 if (!$_SESSION["email"]){
-	header("location:form-login.php"); 
-}else { 
+	header("location:form-login.php");
+}else {
 
 include("connect.php");
 $sql = "SELECT * FROM stock";
@@ -12,21 +12,59 @@ $result = $conn->query($sql);
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>รายการ</title>
 </head>
 	<style>
 		body, input{
 			text-align: center;
-			margin-bottom: 3%;
+			margin-bottom: 1%;
 		}
 		table, td, th{
-			border: 1px solid black;
+			border: 1px solid green;
 		}
 	</style>
 <body>
-	<!-- ออกจากระบบ -->
-	<form action="php-logout.php" method="post"><input type="submit" value="ออกจากระบบ"></form>
-	
+	<h2>รายการสินค้า</h2>
+	ค้นหา : <input type="text" id="myInput" onkeyup="myFunction()" placeholder="ค้นหาชื่อสินค้น ..." title="Type in a name">
+	<table align="center" id="myTable">
+  		<tr class="header">
+			<th>รหัสสินค้า</th>
+    		<th>ชื่อสินค้า</th>
+    		<th>จำนวน</th>
+			<th colspan="3">เลือกรายการ</th>
+  		</tr>
+		<?php
+		if ($result->num_rows > 0) {
+    		while($row = $result->fetch_assoc()) {
+		?>
+  		<tr>
+			<td><?php echo $row["id"]; ?></td>
+    		<td><?php echo $row["name"]; ?></td>
+			<td><?php echo $row["amount"]; ?></td>
+			<td>
+				<form action="php-addToCart.php" method="post">
+					<button type="submit" name="id" value="<?php echo $row["id"]; ?>">สั่งซื้อ</button>
+				</form>
+			</td>
+			<td>
+				<form action="form-editProduct.php" method="post" target="_blank">
+					<button type="submit" name="id" value="<?php echo $row["id"]; ?>">แก้ไขสินค้า</button>
+				</form>
+			</td>
+			<td>
+				<form action="php-delProduct.php" method="post" target="_blank">
+					<button type="submit" name="id" value="<?php echo $row["id"]; ?>">ลบสินค้า</button>
+				</form>
+			</td>
+
+  		</tr>
+		<?php }
+			} else {
+    			echo "0 results";
+		} ?>
+	</table>
+
+
 	<!-- เมนูรายการ -->
 	<table align="center">
 		<tr>
@@ -47,47 +85,10 @@ $result = $conn->query($sql);
 			</th>
 		</tr>
 	</table>
-	
+
 	<!-- ตารางสินค้าและค้นหา -->
-	<h2>รายการสินค้า</h2>
-	ค้นหา : <input type="text" id="myInput" onkeyup="myFunction()" placeholder="ค้นหาชื่อสินค้น ..." title="Type in a name">
-	<table align="center" id="myTable">
-  		<tr class="header">
-			<th>รหัสสินค้า</th>
-    		<th>ชื่อสินค้า</th>
-    		<th>จำนวน</th>
-			<th colspan="3">เลือกรายการ</th>
-  		</tr>
-		<?php 
-		if ($result->num_rows > 0) {
-    		while($row = $result->fetch_assoc()) {
-		?>
-  		<tr>
-			<td><?php echo $row["id"]; ?></td>
-    		<td><?php echo $row["name"]; ?></td>
-			<td><?php echo $row["amount"]; ?></td>
-			<td>
-				<form action="form-editProduct.php" method="post" target="_blank">
-					<button type="submit" name="id" value="<?php echo $row["id"]; ?>">แก้ไขสินค้า</button>
-				</form>
-			</td>
-			<td>
-				<form action="php-delProduct.php" method="post" target="_blank">
-					<button type="submit" name="id" value="<?php echo $row["id"]; ?>">ลบสินค้า</button>
-				</form>
-			</td>
-			<td>
-				<form action="php-addToCart.php" method="post">
-					<button type="submit" name="id" value="<?php echo $row["id"]; ?>">สั่งซื้อ</button>
-				</form>
-			</td>	
-  		</tr>
-		<?php }
-			} else {
-    			echo "0 results";
-		} ?>
-	</table>
-	
+
+<form action="php-logout.php" method="post"><input type="submit" value="ออกจากระบบ"></form>
 	<!-- เงื่อนไขการค้นหา -->
 	<script>
 		function myFunction() {
@@ -105,7 +106,7 @@ $result = $conn->query($sql);
       				} else {
         				tr[i].style.display = "none";
       				}
-    			}       
+    			}
   			}
 		}
 	</script>

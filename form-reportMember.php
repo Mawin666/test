@@ -1,7 +1,7 @@
 <?php session_start();
 if (!$_SESSION["email"]){
-	header("location:form-login.php"); 
-}else { 
+	header("location:form-login.php");
+}else {
 
 include("connect.php");
 $sql = "SELECT * FROM login";
@@ -12,7 +12,7 @@ $result = $conn->query($sql);
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>สมาชิก</title>
 </head>
 	<style>
 		body{
@@ -31,7 +31,7 @@ $result = $conn->query($sql);
 			<th>รหัสผ่าน</th>
 			<th>ลบสมาชิก</th>
 		</tr>
-		<?php 
+		<?php
 		if ($result->num_rows > 0) {
     		while($row = $result->fetch_assoc()) {
 		?>
@@ -50,5 +50,6 @@ $result = $conn->query($sql);
 		} ?>
 	</table>
 </body>
+<a href="form-cart.php">ย้อนกลับ</a> <br><br>
 </html>
 <?php $conn->close(); } ?>
